@@ -1,0 +1,149 @@
+<HTML class='ltr no-js rwd index' dir='ltr'>
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+<!--+-+-+-+-+-+- Almaftuchin, Inc +-+-+-+-+-->
+<!--+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-->
+<title>Almaftuchin - Google Drive Link Generator</title>
+<head>
+<!-- BOOTSTRAP STYLESHEETS -->
+<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet'/>
+<!-- FONT AWESOME -->
+<link href='//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' rel='stylesheet'/>
+<link href='//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'/>
+</head>
+<BODY>
+<script language="javascript">
+window.onload = setup;
+
+function setup(){
+ document.getElementById('button').addEventListener('click', go, false);
+}
+  
+function go(){
+    var DocIDfull = document.getElementById('DocID').value;
+    var DocIDstart = DocIDfull.indexOf('/d/');
+    var DocIDend = DocIDfull.indexOf('/', DocIDstart+3);
+    if (DocIDstart == -1){
+      document.getElementById('Input_span').innerHTML = '<input type="text" id="output" style="background-color: #ff0000;color: white;border-style: none;width: 100%;" value="Error: Invalid URL" readonly>';
+      return
+    }
+    if (DocIDend == -1){
+      var DocID = DocIDfull.slice(DocIDstart+3)
+    }
+    else{
+      var DocID = DocIDfull.slice(DocIDstart+3, DocIDend)
+    }
+    var ID = 'https://drive.google.com/uc?export=download&id=' + DocID;
+    document.getElementById('Input_span').innerHTML = '<input type="text" onclick="this.select();" id="output" style="width:100%" value="' + ID + '" readonly>' +
+                                  '<hr style="visibility:hidden;height:0">' +
+                                                      '<font style="font-size: 12px;font-weight: bold;color: #086900;">Tip: Press button below to copy generated URL.</font>';
+    document.getElementByID('output').select();
+}
+</script>
+<div align="left">
+<font face="Century Gothic, Calibri" size="5">Google Drive sharing URL:</font>
+<br>
+<input id="DocID" type="text" placeholder='Paste URL here then press Generate Link button'>
+<br><br>
+<center><button id="button">Generate Link</button>  <button id="resetbtn" onclick="location.reload();">Reset</button></center>
+<br><br>
+<font face="Century Gothic, Calibri" size="5">Output direct download link:</font>
+<br>
+<span id="Input_span">
+<input id="output" type="text" readonly="">
+</span>
+<br><br>
+<div class="tooltip">
+<button id="copiedbtn" onclick="copied()" onmouseout="outFunc()"><span class="tooltiptext" id="myTooltip">Copy to clipboard</span>Copy Generate Link</button>
+</div>
+</div>
+<script>
+function copied() {
+  var copyText = document.getElementById("output");
+  copyText.select();
+  document.execCommand("copy");
+  
+  var tooltip = document.getElementById("myTooltip");
+  tooltip.innerHTML = "Copied: " + copyText.value;
+}
+
+function outFunc() {
+  var tooltip = document.getElementById("myTooltip");
+  tooltip.innerHTML = "Copy to clipboard";
+}
+</script>
+<style>
+button#button {
+    width: 49%;
+    height: 40px;
+    padding: 5px;
+    color: #fff;
+    border-style: none;
+    background: #03A9F4;
+    cursor: pointer;
+}
+button#resetbtn {
+    width: 49%;
+    height: 40px;
+    padding: 5px;
+    color: #fff;
+    border-style: none;
+    background: #607D8B;
+    cursor: pointer;
+}
+button#copiedbtn {
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    color: #fff;
+    border-style: none;
+    background: #4CAF50;
+    cursor: pointer;
+}
+input#DocID, input#output {
+    width: 100%;
+    height: 30px;
+    color: #2196F3;
+    font-size: 16px;
+    font-weight: bold;
+}
+.tooltip {
+    position: relative;
+	width: 100%;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
+</BODY>
+<HTML/>
